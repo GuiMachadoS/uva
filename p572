@@ -4,8 +4,8 @@ using namespace std;
 
 char mat[110][110];
 
-int vx[4]{-1,0,0,1};
-int vy[4]{0,-1,1,0};
+int vx[8]{-1,0,0,1,-1,-1,1,1};
+int vy[8]{0,-1,1,0,-1,1,-1,1};
 
 void floodfill(int x,int y,int i,int j)
 {
@@ -13,16 +13,17 @@ void floodfill(int x,int y,int i,int j)
 	
 	mat[i][j]='1';
 	
-	for(int k=0;k<4;k++)
+	
+	
+	for(int k=0;k<8;k++)
 	{
 		px=i+vx[k];
 		py=j+vy[k];
 		if(mat[px][py]=='@' and px>=0 and px<x and py>=0 and py<y)
 		{
-			
+			floodfill(x,y,px,py);
 		}
 	}
-	
 }
 
 int main()
@@ -32,7 +33,7 @@ int main()
 	cin>>x>>y;
 	while(x!=0 and y!=0)
 	{
-		int bolsao;
+		int bolsao=0;
 		
 		for(int i=0;i<x;i++)
 			for(int j=0;j<y;j++)
@@ -45,7 +46,8 @@ int main()
 				if(mat[i][j]=='@')
 				{
 					bolsao++;
-					floodfill(x,y,j,i);
+					floodfill(x,y,i,j);
+					
 				}
 			}
 		}
