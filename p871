@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+char mat[30][30];
+
+int vx[8]{-1,0,0,1,-1,-1,1,1};
+int vy[8]{0,-1,1,0,-1,1,-1,1};
+
+void floodfill(int x,int y,int i,int j,int &cont)
+{
+	int px,py;
+	
+	mat[i][j]='@';
+	(cont)++;
+	
+	for(int k=0;k<8;k++)
+	{
+		px=i+vx[k];
+		py=j+vy[k];
+		if(mat[px][py]=='1' and px>=0 and px<x and py>=0 and py<y)
+		{
+			floodfill(x,y,px,py,cont);
+		}
+	}
+}
+
+int main()
+{
+	//freopen("input.txt", "r", stdin);
+	//freopen("output.txt", "w", stdout);
+	int q;
+	bool para=1;
+	cin>>q;
+	
+	for(int i=0;i<q;i++)
+	{
+		int x=0,y,cont=0,r=0;
+		
+		string n;
+		
+		if(para)
+		{
+			cin.ignore();
+			getline(cin,n);
+		}
+		
+		getline(cin,n);
+		
+		while(n!="")
+		{
+			y=n.size();
+			for(int j=0;j<y;j++)
+				mat[x][j]=n[j];
+
+			x++;
+			getline(cin,n);
+		}
+		
+		
+		for(int j=0;j<x;j++)
+		{
+			for(int k=0;k<y;k++)
+			{
+				if(mat[j][k]=='1')
+					floodfill(x,y,j,k,cont);
+		
+				if(r<cont)	
+					r=cont;
+
+				cont=0;	
+			}
+		}
+		if(!para)
+			cout<<'\n';
+		para=0;
+		
+		cout<<r<<"\n";
+	}
+}
