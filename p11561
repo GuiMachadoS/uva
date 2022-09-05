@@ -7,11 +7,10 @@ char mat[70][70];
 int vx[4]={-1,0,1,0};
 int vy[4]={0,1,0,-1};
 
-
-
 void floodfill(int x,int y,int i,int j,int &g)
 {
 	int px,py;
+	bool zz=0;
 	
 	if(mat[i][j]=='G')
 	{
@@ -19,16 +18,29 @@ void floodfill(int x,int y,int i,int j,int &g)
 	}	
 	
 	mat[i][j]='1';
-
+	
 	for(int k=0;k<4;k++)
 	{
 		px=i+vx[k];
 		py=j+vy[k];
-		
-		if((mat[px][py]=='.' or mat[px][py]=='G') and px>=0 and px<x and py>=0 and py<y)
+		if(mat[px][py]=='T')
 		{
+			zz=1;
+			k=4;
+		}	
+	}
+	
+	if(!zz)
+	{
+		for(int k=0;k<4;k++)
+		{
+			px=i+vx[k];
+			py=j+vy[k];
 			
-			floodfill(x,y,px,py,g);
+			if((mat[px][py]=='.' or mat[px][py]=='G') and px>=0 and px<x and py>=0 and py<y)
+			{
+				floodfill(x,y,px,py,g);
+			}
 		}
 	}
 }
@@ -37,7 +49,6 @@ int main()
 {
 	int x,y;
 	
-	
 	while(cin>>y>>x)
 	{
 		int g=0;
@@ -45,31 +56,12 @@ int main()
 		for(int i=0;i<x;i++)
 			for(int j=0;j<y;j++)
 				cin>>mat[i][j];
-	
 		
 		for(int i=0;i<x;i++)
 			for(int j=0;j<y;j++)
 				if(mat[i][j]=='P')
 				{
-					bool zz=0;
-					
-					for(int k=0;k<4;k++)
-					{
-						int px,py;
-						px=i+vx[k];
-						py=j+vy[k];
-						if(mat[px][py]=='T')
-						{
-							zz=1;
-							k=4;
-						}	
-					}
-					
-					if(zz==0)
-					{
-						floodfill(x,y,i,j,g);
-					}
-					
+					floodfill(x,y,i,j,g);
 					i=x;j=y;
 				}
 	
