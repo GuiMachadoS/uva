@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+char mat[22][22];
+
+int vx[4]={-1,0,1,0};
+int vy[4]={0,1,0,-1};
+
+void floodfill(int i,int j,int x,int y, char c, int &cont)
+{
+	int px,py;
+	cont++;
+	mat[i][j]='1';
+	
+	for(int k=0;k<4;k++)
+	{
+		px=(i+vx[k]);
+		py=(j+vy[k])%y;
+			
+		if(py==-1)
+			py=y-1;
+		
+		if(mat[px][py]==c)
+		{
+			floodfill(px,py,x,y,c,cont);
+		}
+	}
+}
+
+
+int main()
+{
+	int x,y,p1,p2,cont=0,r=0;
+	
+	while(cin>>x>>y)
+	{
+		for(int i=0;i<x;i++)
+			for(int j=0;j<y;j++)
+				cin>>mat[i][j];
+						
+		cin>>p1>>p2;
+		char c=mat[p1][p2];
+		floodfill(p1,p2,x,y,c,cont);
+		cont=0;
+		
+		
+		for(int i=0;i<x;i++)
+			for(int j=0;j<y;j++)
+				if(mat[i][j]==c)
+				{
+					floodfill(i,j,x,y,c,cont);
+					if(r<cont)
+						r=cont;
+						
+					cont =0;
+				}
+		cout<<r<<'\n';		
+		r=0;	
+	}
+}
+
