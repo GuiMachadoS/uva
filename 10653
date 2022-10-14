@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void bfs(int nv,int *m[], int s,int *d, int *p)
+{
+	char c[nv];
+	int u;
+	for(int i=0;i<nv;i++)
+	{
+		c[i]='w';
+		p[i]=-1;
+		d[i]=INT_MAX;
+	}
+	
+	queue<int> f;
+	
+	f.push(s);
+	
+	d[s]=0;
+	c[s]='g';
+	while(!f.empty())
+	{
+		u=f.front();;
+		f.pop();
+		for(int v=0;v<nv;v++)
+		{
+			if(m[u][v]!=0 and c[v]=='w')
+			{
+				f.push(v);
+				c[v]='g';
+				p[v]=u;
+				d[v]=d[u]+1;
+			}
+			
+		}
+		
+		c[u]='b';
+	}
+}
+
+int main()
+{
+	
+	int a,b;
+	cin>>a>>b;
+	while(a!=0 and b!=0)
+	{
+		
+		int mat[a][b],d[a],p[a];
+		
+		for(int i=0;i<a;i++)
+			for(int j=0;j<b;j++)
+				mat[i][j]=1;
+		
+		int q;
+		cin>>q;
+		for(int i=0;i<q;i++)
+		{
+			int l,x,c;
+			cin>>l>>x;
+			for(int j=0;j<x;j++)
+			{
+				cin>>c;
+				mat[l][c]=0;
+			}
+		}
+		int xi,yi,xf,yf;
+		cin>>xi>>xi;
+		cin>>yi>>yf;
+		
+		bfs(a,mat,a,d,p);
+		cout<<;
+		
+		cin>>a>>b;
+	}	
+}
