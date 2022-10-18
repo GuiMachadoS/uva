@@ -2,56 +2,46 @@
 
 using namespace std;
 
-void bfs(int nv,int *m[], int s,int *d, int *p)
+int a,b;
+int mat[1009][1009];
+
+void bfs(int xi,int yi)
 {
-	char c[nv];
-	int u;
-	for(int i=0;i<nv;i++)
+	queue<pair<int,int>>q;
+	mat[xi][yi]=0;
+	q.push({xi,yi});
+	
+	while(!q.empty())
 	{
-		c[i]='w';
-		p[i]=-1;
-		d[i]=INT_MAX;
-	}
-	
-	queue<int> f;
-	
-	f.push(s);
-	
-	d[s]=0;
-	c[s]='g';
-	while(!f.empty())
-	{
-		u=f.front();;
-		f.pop();
-		for(int v=0;v<nv;v++)
+		pair<int,int>v=q.front();
+		q.pop();
+		
+		int vx[4]={0,1,0,-1};
+		int vy[4]={1,0,-1,0};
+		for(int i=0;i<4;i++)
 		{
-			if(m[u][v]!=0 and c[v]=='w')
+			int ax=v.first+vx[i];
+			int ay=v.second+vy[i];
+			if(ax>=0 && ax<a && ay>=0 && ay<b && mat[ax][ay]==-1)
 			{
-				f.push(v);
-				c[v]='g';
-				p[v]=u;
-				d[v]=d[u]+1;
+				q.push({ax,ay});
+				mat[ax][ay]=mat[v.first][v.second]+1;
 			}
-			
 		}
 		
-		c[u]='b';
 	}
+	
+	
 }
 
 int main()
 {
-	
-	int a,b;
 	cin>>a>>b;
 	while(a!=0 and b!=0)
 	{
-		
-		int mat[a][b],d[a],p[a];
-		
 		for(int i=0;i<a;i++)
 			for(int j=0;j<b;j++)
-				mat[i][j]=1;
+				mat[i][j]=-1;
 		
 		int q;
 		cin>>q;
@@ -66,11 +56,12 @@ int main()
 			}
 		}
 		int xi,yi,xf,yf;
-		cin>>xi>>xi;
-		cin>>yi>>yf;
+		cin>>xi>>yi;
+		cin>>xf>>yf;
+
+		bfs(xi,yi);
 		
-		bfs(a,mat,a,d,p);
-		cout<<;
+		cout<<mat[xf][yf]<<'\n';
 		
 		cin>>a>>b;
 	}	
