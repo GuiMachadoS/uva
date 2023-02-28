@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<int>adj[10010];
+vector<bool> visitado;
+int res=0;
+
+void dfs(int u)
+{
+	visitado[u]= true;
+	
+	res++;
+	
+	for(auto v : adj[u])
+	{
+		if(!visitado[v])
+			dfs(v);
+	}
+}
+
+int main()
+{
+	int t;
+	cin>>t;
+	
+	for(int i=0;i<t;i++)
+	{
+		visitado.assign(10010, false);
+		
+		res=0;
+		
+		int n,m,l;
+		cin>>n>>m>>l;
+		
+		
+		for(int j=0;j<m;j++)
+		{
+			int x,y;
+			cin>>x>>y;
+			
+			adj[x].push_back(y);
+		}
+		for(int j=0;j<l;j++)
+		{
+			int x;
+			cin>>x;
+			
+			dfs(x);
+		}
+		cout<<res<<'\n';
+		for(int j=0;j<n;j++)
+		{
+			adj[j].clear();
+		}
+	}
+}
